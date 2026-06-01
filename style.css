@@ -1,0 +1,175 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', Arial, sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+    padding:20px;
+}
+
+header{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+    margin-bottom:20px;
+}
+
+header h1{
+    margin-bottom:10px;
+}
+
+.infos{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.infos div{
+    background:#0d6efd;
+    color:white;
+    padding:10px 15px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.novoPedido,
+.pesquisa,
+.excedentes{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+    margin-bottom:20px;
+}
+
+input{
+    padding:10px;
+    margin:5px;
+    border:1px solid #d0d0d0;
+    border-radius:8px;
+}
+
+button{
+    padding:10px 15px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.kanban{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.coluna{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    min-height:550px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.coluna h2{
+    padding:15px;
+    text-align:center;
+    color:white;
+    font-size:18px;
+}
+
+/* CORES DAS COLUNAS */
+
+.alinhamento-coluna h2{
+    background:#0d6efd;
+}
+
+.boleto-coluna h2{
+    background:#ffc107;
+    color:black;
+}
+
+.pagamento-coluna h2{
+    background:#198754;
+}
+
+.coleta-coluna h2{
+    background:#6f42c1;
+}
+
+#alinhamento,
+#boleto,
+#pagamento,
+#coleta{
+    padding:10px;
+}
+
+.card{
+    background:white;
+    border-left:5px solid #0d6efd;
+    padding:12px;
+    margin-bottom:10px;
+    border-radius:10px;
+    box-shadow:0 2px 6px rgba(0,0,0,.1);
+    transition:.2s;
+}
+
+.card:hover{
+    transform:translateY(-2px);
+}
+
+.card strong{
+    display:block;
+    font-size:15px;
+    margin-bottom:5px;
+}
+
+.botoes{
+    display:flex;
+    gap:5px;
+    margin-top:10px;
+}
+
+.botoes button{
+    flex:1;
+    background:#0d6efd;
+    color:white;
+}
+
+.excluir{
+    width:100%;
+    margin-top:5px;
+    background:#dc3545 !important;
+    color:white;
+}
+
+.excedentes h2{
+    margin-bottom:15px;
+}
+
+.excedente-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px;
+    background:#f8f9fa;
+    border-radius:8px;
+    margin-bottom:8px;
+}
+
+.excedente-item button{
+    background:#dc3545;
+    color:white;
+}
+
+@media(max-width:1200px){
+
+    .kanban{
+        grid-template-columns:1fr;
+    }
+
+}
