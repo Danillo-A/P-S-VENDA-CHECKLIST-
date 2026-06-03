@@ -53,12 +53,21 @@ input{
     border-radius:8px;
 }
 
+#obsFrete{
+    width:170px;
+}
+
 button{
     padding:10px 15px;
     border:none;
     border-radius:8px;
     cursor:pointer;
     font-weight:600;
+    transition:.2s;
+}
+
+button:hover{
+    opacity:.9;
 }
 
 .kanban{
@@ -71,7 +80,7 @@ button{
     background:white;
     border-radius:12px;
     overflow:hidden;
-    min-height:550px;
+    min-height:600px;
     box-shadow:0 2px 10px rgba(0,0,0,.08);
 }
 
@@ -81,8 +90,6 @@ button{
     color:white;
     font-size:18px;
 }
-
-/* CORES DAS COLUNAS */
 
 .alinhamento-coluna h2{
     background:#0d6efd;
@@ -101,43 +108,71 @@ button{
     background:#6f42c1;
 }
 
-#alinhamento,
-#boleto,
-#pagamento,
-#coleta{
+.dropzone{
     padding:10px;
+    min-height:550px;
+}
+
+.dropzone.drag-over{
+    background:#eef5ff;
 }
 
 .card{
     background:white;
     border-left:5px solid #0d6efd;
-    padding:12px;
-    margin-bottom:10px;
+    padding:10px;
+    margin-bottom:8px;
     border-radius:10px;
-    box-shadow:0 2px 6px rgba(0,0,0,.1);
+    box-shadow:0 2px 6px rgba(0,0,0,.08);
     transition:.2s;
+    cursor:grab;
+    font-size:13px;
 }
 
 .card:hover{
     transform:translateY(-2px);
 }
 
+.card.dragging{
+    opacity:.5;
+}
+
 .card strong{
     display:block;
-    font-size:15px;
-    margin-bottom:5px;
+    font-size:14px;
+    margin-bottom:4px;
+}
+
+.obs{
+    display:block;
+    margin-top:5px;
+    color:#666;
+    font-size:12px;
 }
 
 .botoes{
     display:flex;
-    gap:5px;
-    margin-top:10px;
+    gap:4px;
+    margin-top:8px;
 }
 
 .botoes button{
     flex:1;
-    background:#0d6efd;
     color:white;
+    padding:6px;
+    font-size:12px;
+}
+
+.btn-voltar{
+    background:#6c757d;
+}
+
+.btn-avancar{
+    background:#0d6efd;
+}
+
+.btn-editar{
+    background:#198754;
 }
 
 .excluir{
@@ -166,16 +201,64 @@ button{
     color:white;
 }
 
+/* MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+
+.modal-content{
+    background:white;
+    width:400px;
+    max-width:95%;
+    border-radius:12px;
+    padding:20px;
+}
+
+.modal-content h2{
+    margin-bottom:15px;
+}
+
+.modal-content input{
+    width:100%;
+    margin-bottom:10px;
+}
+
+.modal-botoes{
+    display:flex;
+    gap:10px;
+    justify-content:flex-end;
+}
+
+.modal-botoes button:first-child{
+    background:#198754;
+    color:white;
+}
+
+.modal-botoes button:last-child{
+    background:#dc3545;
+    color:white;
+}
+
 @media(max-width:1200px){
 
     .kanban{
         grid-template-columns:1fr;
     }
 
-}
-#obsFrete{
-    width:150px;
-}
-#obsFrete{
-    width:120px;
+    .novoPedido{
+        display:flex;
+        flex-direction:column;
+    }
+
+    .novoPedido input{
+        width:100%;
+    }
+
 }
