@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pós Venda</title>
+    <title>Controle Pós-Venda</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -40,10 +40,10 @@
         <input
             type="text"
             id="obsFrete"
-            placeholder="OBS/FRETE">
+            placeholder="OBS/FRETE (opcional)">
 
         <button onclick="adicionarPedido()">
-            Adicionar Pedido
+            ➕ Adicionar Pedido
         </button>
 
     </section>
@@ -66,7 +66,7 @@
                 (<span id="count-alinhamento">0</span>)
             </h2>
 
-            <div id="alinhamento"></div>
+            <div id="alinhamento" class="dropzone"></div>
         </div>
 
         <div class="coluna boleto-coluna">
@@ -75,16 +75,16 @@
                 (<span id="count-boleto">0</span>)
             </h2>
 
-            <div id="boleto"></div>
+            <div id="boleto" class="dropzone"></div>
         </div>
 
         <div class="coluna pagamento-coluna">
             <h2>
-                PAGAMENTO DE BOLETO
+                PAGAMENTO
                 (<span id="count-pagamento">0</span>)
             </h2>
 
-            <div id="pagamento"></div>
+            <div id="pagamento" class="dropzone"></div>
         </div>
 
         <div class="coluna coleta-coluna">
@@ -93,7 +93,7 @@
                 (<span id="count-coleta">0</span>)
             </h2>
 
-            <div id="coleta"></div>
+            <div id="coleta" class="dropzone"></div>
         </div>
 
     </section>
@@ -125,6 +125,50 @@
         </button>
 
     </section>
+
+    <!-- MODAL DE EDIÇÃO -->
+
+    <div id="modalEditar" class="modal">
+
+        <div class="modal-content">
+
+            <h2>✏️ Editar Pedido</h2>
+
+            <input
+                type="text"
+                id="editCliente"
+                placeholder="Cliente">
+
+            <input
+                type="text"
+                id="editEmpresa"
+                placeholder="Empresa">
+
+            <input
+                type="text"
+                id="editPedido"
+                placeholder="Pedido">
+
+            <input
+                type="text"
+                id="editObs"
+                placeholder="OBS/FRETE">
+
+            <div class="modal-botoes">
+
+                <button onclick="salvarEdicao()">
+                    💾 Salvar
+                </button>
+
+                <button onclick="fecharModal()">
+                    ❌ Cancelar
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
 
     <script src="script.js"></script>
 
