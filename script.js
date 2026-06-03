@@ -61,10 +61,12 @@ function adicionarPedido() {
 
     const pedido =
         document.getElementById("pedido").value;
-const obsFrete =
-document.getElementById("obsFrete").value;
+
+    const obsFrete =
+        document.getElementById("obsFrete").value;
+
     if (!cliente || !empresa || !pedido) {
-        alert("Preencha todos os campos");
+        alert("Preencha Cliente, Empresa e Pedido");
         return;
     }
 
@@ -75,23 +77,28 @@ document.getElementById("obsFrete").value;
 
     card.className = "card";
 
-   card.innerHTML = `
-<strong>${cliente}</strong>
-Empresa: ${empresa}<br>
-Pedido: ${pedido}
-${obsFrete ? `<br><small><strong>OBS/FRETE:</strong> ${obsFrete}</small>` : ""}
+    card.innerHTML = `
+        <strong>${cliente}</strong>
 
-<div class="botoes">
-<button onclick="voltarEtapa(this)">⬅</button>
-<button onclick="proximaEtapa(this)">➡</button>
-</div>
+        Empresa: ${empresa}<br>
 
-<button
-class="excluir"
-onclick="removerCard(this)">
-🗑 Excluir
-</button>
-`;
+        Pedido: ${pedido}
+
+        ${obsFrete
+            ? `<br><small><strong>OBS/FRETE:</strong> ${obsFrete}</small>`
+            : ""
+        }
+
+        <div class="botoes">
+            <button onclick="voltarEtapa(this)">⬅</button>
+            <button onclick="proximaEtapa(this)">➡</button>
+        </div>
+
+        <button
+            class="excluir"
+            onclick="removerCard(this)">
+            🗑 Excluir
+        </button>
     `;
 
     document
@@ -101,7 +108,8 @@ onclick="removerCard(this)">
     document.getElementById("cliente").value = "";
     document.getElementById("empresa").value = "";
     document.getElementById("pedido").value = "";
-document.getElementById("obsFrete").value="";
+    document.getElementById("obsFrete").value = "";
+
     atualizarContadores();
     salvarDados();
 }
