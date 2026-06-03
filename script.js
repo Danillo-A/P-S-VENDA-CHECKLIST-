@@ -1,248 +1,328 @@
 let contador = 0;
 
-function adicionarPedido(){
+// =========================
+// LOCAL STORAGE
+// =========================
 
-const cliente =
-document.getElementById("cliente").value;
+function salvarDados() {
 
-const empresa =
-document.getElementById("empresa").value;
+    const dados = {
+        alinhamento: document.getElementById("alinhamento").innerHTML,
+        boleto: document.getElementById("boleto").innerHTML,
+        pagamento: document.getElementById("pagamento").innerHTML,
+        coleta: document.getElementById("coleta").innerHTML,
+        excedentes: document.getElementById("listaExcedentes").innerHTML
+    };
 
-const pedido =
-document.getElementById("pedido").value;
-
-if(!cliente || !empresa || !pedido){
-alert("Preencha todos os campos");
-return;
+    localStorage.setItem(
+        "posVenda",
+        JSON.stringify(dados)
+    );
 }
 
-contador++;
+function carregarDados() {
 
-const card =
-document.createElement("div");
+    const dados = JSON.parse(
+        localStorage.getItem("posVenda")
+    );
 
-card.className = "card";
+    if (!dados) return;
 
-card.innerHTML = `
-<strong>${cliente}</strong>
-Empresa: ${empresa}<br>
-Pedido: ${pedido}
+    document.getElementById("alinhamento").innerHTML =
+        dados.alinhamento || "";
 
-<div class="botoes">
-<button onclick="voltarEtapa(this)">⬅</button>
-<button onclick="proximaEtapa(this)">➡</button>
-</div>
+    document.getElementById("boleto").innerHTML =
+        dados.boleto || "";
 
-<button
-class="excluir"
-onclick="removerCard(this)">
-🗑 Excluir
-</button>
-`;
+    document.getElementById("pagamento").innerHTML =
+        dados.pagamento || "";
 
-document
-.getElementById("alinhamento")
-.appendChild(card);
+    document.getElementById("coleta").innerHTML =
+        dados.coleta || "";
 
-document.getElementById("cliente").value="";
-document.getElementById("empresa").value="";
-document.getElementById("pedido").value="";
+    document.getElementById("listaExcedentes").innerHTML =
+        dados.excedentes || "";
 
-atualizarContadores();
+    atualizarContadores();
+    atualizarExcedentes();
 }
 
-function removerCard(btn){
+// =========================
+// PEDIDOS
+// =========================
 
-btn.parentElement.remove();
+function adicionarPedido() {
 
-atualizarContadores();
+    const cliente =
+        document.getElementById("cliente").value;
+
+    const empresa =
+        document.getElementById("empresa").value;
+
+    const pedido =
+        document.getElementById("pedido").value;
+
+    if (!cliente || !empresa || !pedido) {
+        alert("Preencha todos os campos");
+        return;
+    }
+
+    contador++;
+
+    const card =
+        document.createElement("div");
+
+    card.className = "card";
+
+    card.innerHTML = `
+        <strong>${cliente}</strong>
+        Empresa: ${empresa}<br>
+        Pedido: ${pedido}
+
+        <div class="botoes">
+            <button onclick="voltarEtapa(this)">⬅</button>
+            <button onclick="proximaEtapa(this)">➡</button>
+        </div>
+
+        <button
+            class="excluir"
+            onclick="removerCard(this)">
+            🗑 Excluir
+        </button>
+    `;
+
+    document
+        .getElementById("alinhamento")
+        .appendChild(card);
+
+    document.getElementById("cliente").value = "";
+    document.getElementById("empresa").value = "";
+    document.getElementById("pedido").value = "";
+
+    atualizarContadores();
+    salvarDados();
 }
 
-function proximaEtapa(btn){
+function removerCard(btn) {
 
-const card = btn.closest(".card");
+    btn.parentElement.remove();
 
-const coluna =
-card.parentElement.id;
-
-if(coluna==="alinhamento"){
-
-document
-.getElementById("boleto")
-.appendChild(card);
-
+    atualizarContadores();
+    salvarDados();
 }
 
-else if(coluna==="boleto"){
+function proximaEtapa(btn) {
 
-document
-.getElementById("pagamento")
-.appendChild(card);
+    const card = btn.closest(".card");
 
+    const coluna =
+        card.parentElement.id;
+
+    if (coluna === "alinhamento") {
+
+        document
+            .getElementById("boleto")
+            .appendChild(card);
+
+    } else if (coluna === "boleto") {
+
+        document
+            .getElementById("pagamento")
+            .appendChild(card);
+
+    } else if (coluna === "pagamento") {
+
+        document
+            .getElementById("coleta")
+            .appendChild(card);
+    }
+
+    atualizarContadores();
+    salvarDados();
 }
 
-else if(coluna==="pagamento"){
+function voltarEtapa(btn) {
 
-document
-.getElementById("coleta")
-.appendChild(card);
+    const card = btn.closest(".card");
 
+    const coluna =
+        card.parentElement.id;
+
+    if (coluna === "coleta") {
+
+        document
+            .getElementById("pagamento")
+            .appendChild(card);
+
+    } else if (coluna === "pagamento") {
+
+        document
+            .getElementById("boleto")
+            .appendChild(card);
+
+    } else if (coluna === "boleto") {
+
+        document
+            .getElementById("alinhamento")
+            .appendChild(card);
+    }
+
+    atualizarContadores();
+    salvarDados();
 }
 
-atualizarContadores();
+function atualizarContadores() {
+
+    const alinhamento =
+        document.getElementById("alinhamento")
+            .children.length;
+
+    const boleto =
+        document.getElementById("boleto")
+            .children.length;
+
+    const pagamento =
+        document.getElementById("pagamento")
+            .children.length;
+
+    const coleta =
+        document.getElementById("coleta")
+            .children.length;
+
+    document.getElementById("count-alinhamento").innerText = alinhamento;
+    document.getElementById("count-boleto").innerText = boleto;
+    document.getElementById("count-pagamento").innerText = pagamento;
+    document.getElementById("count-coleta").innerText = coleta;
+
+    document.getElementById("totalPedidos").innerText =
+        alinhamento +
+        boleto +
+        pagamento +
+        coleta;
 }
 
-function voltarEtapa(btn){
+// =========================
+// PESQUISA
+// =========================
 
-const card = btn.closest(".card");
+function pesquisarPedidos() {
 
-const coluna =
-card.parentElement.id;
+    const termo =
+        document
+            .getElementById("pesquisa")
+            .value
+            .toLowerCase();
 
-if(coluna==="coleta"){
+    document
+        .querySelectorAll(".card")
+        .forEach(card => {
 
-document
-.getElementById("pagamento")
-.appendChild(card);
+            const texto =
+                card.innerText.toLowerCase();
 
+            card.style.display =
+                texto.includes(termo)
+                    ? "block"
+                    : "none";
+        });
 }
 
-else if(coluna==="pagamento"){
+// =========================
+// EXCEDENTES
+// =========================
 
-document
-.getElementById("boleto")
-.appendChild(card);
+function adicionarExcedente() {
 
+    const nome =
+        document.getElementById("nomeExcedente").value;
+
+    const valor =
+        parseFloat(
+            document.getElementById("valorExcedente").value
+        );
+
+    if (!nome || !valor) {
+        return;
+    }
+
+    const item =
+        document.createElement("div");
+
+    item.className =
+        "excedente-item";
+
+    item.innerHTML = `
+        <span>${nome} - R$ ${valor.toFixed(2)}</span>
+
+        <button onclick="removerExcedente(this)">
+            Excluir
+        </button>
+    `;
+
+    document
+        .getElementById("listaExcedentes")
+        .appendChild(item);
+
+    document.getElementById("nomeExcedente").value = "";
+    document.getElementById("valorExcedente").value = "";
+
+    atualizarExcedentes();
+    salvarDados();
 }
 
-else if(coluna==="boleto"){
+function removerExcedente(btn) {
 
-document
-.getElementById("alinhamento")
-.appendChild(card);
+    btn.parentElement.remove();
 
+    atualizarExcedentes();
+    salvarDados();
 }
 
-atualizarContadores();
+function atualizarExcedentes() {
+
+    let total = 0;
+
+    document
+        .querySelectorAll(".excedente-item span")
+        .forEach(item => {
+
+            const valor =
+                parseFloat(
+                    item.innerText.split("R$ ")[1]
+                );
+
+            total += valor;
+        });
+
+    document
+        .getElementById("totalExcedentes")
+        .innerText =
+        total.toFixed(2);
 }
 
-function atualizarContadores(){
+// =========================
+// LIMPAR TUDO
+// =========================
 
-const alinhamento =
-document.getElementById("alinhamento")
-.children.length;
+function limparTudo() {
 
-const boleto =
-document.getElementById("boleto")
-.children.length;
+    if (confirm("Deseja apagar todos os dados?")) {
 
-const pagamento =
-document.getElementById("pagamento")
-.children.length;
+        localStorage.removeItem("posVenda");
 
-const coleta =
-document.getElementById("coleta")
-.children.length;
+        document.getElementById("alinhamento").innerHTML = "";
+        document.getElementById("boleto").innerHTML = "";
+        document.getElementById("pagamento").innerHTML = "";
+        document.getElementById("coleta").innerHTML = "";
+        document.getElementById("listaExcedentes").innerHTML = "";
 
-document.getElementById("count-alinhamento").innerText = alinhamento;
-document.getElementById("count-boleto").innerText = boleto;
-document.getElementById("count-pagamento").innerText = pagamento;
-document.getElementById("count-coleta").innerText = coleta;
-
-document.getElementById("totalPedidos").innerText =
-alinhamento +
-boleto +
-pagamento +
-coleta;
+        atualizarContadores();
+        atualizarExcedentes();
+    }
 }
 
-function pesquisarPedidos(){
+// =========================
+// INICIALIZAÇÃO
+// =========================
 
-const termo =
-document
-.getElementById("pesquisa")
-.value
-.toLowerCase();
-
-document
-.querySelectorAll(".card")
-.forEach(card=>{
-
-const texto =
-card.innerText.toLowerCase();
-
-card.style.display =
-texto.includes(termo)
-? "block"
-: "none";
-
-});
-}
-
-function adicionarExcedente(){
-
-const nome =
-document.getElementById("nomeExcedente").value;
-
-const valor =
-parseFloat(
-document.getElementById("valorExcedente").value
-);
-
-if(!nome || !valor){
-return;
-}
-
-const item =
-document.createElement("div");
-
-item.className =
-"excedente-item";
-
-item.innerHTML = `
-<span>${nome} - R$ ${valor.toFixed(2)}</span>
-
-<button onclick="removerExcedente(this)">
-Excluir
-</button>
-`;
-
-document
-.getElementById("listaExcedentes")
-.appendChild(item);
-
-document.getElementById("nomeExcedente").value="";
-document.getElementById("valorExcedente").value="";
-
-atualizarExcedentes();
-}
-
-function removerExcedente(btn){
-
-btn.parentElement.remove();
-
-atualizarExcedentes();
-}
-
-function atualizarExcedentes(){
-
-let total = 0;
-
-document
-.querySelectorAll(".excedente-item span")
-.forEach(item=>{
-
-const valor =
-parseFloat(
-item.innerText.split("R$ ")[1]
-);
-
-total += valor;
-
-});
-
-document
-.getElementById("totalExcedentes")
-.innerText =
-total.toFixed(2);
-}
+window.onload = carregarDados;
